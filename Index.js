@@ -4,39 +4,36 @@ import { Image } from 'react-native';
 
 class Index extends React.Component {
     state = {
-
+        newData: []
     }
 
     componentDidMount() {
-        return fetch('http://xkcd.com/6/info.0.json')
-            /* return fetch('http://xkcd.com/'+number +'/info.json') */
-            .then((response) => response.json())
-            .then((data) => this.setState({
-                newText: data.title,
-                newDay: data.day,
-                newMonth: data.month,
-                newYear: data.year,
-                newImg: data.img,
-            }));
-
-
+        for (let i = 0; i < 8; i++) {
+            return fetch('http://xkcd.com/' + i + '/info.0.json')
+                .then((response) => response.json())
+                .then((data) => this.setState({
+                    newData: data,
+                }
+                ));
+        }
     }
     render() {
 
-        return (
+        this.state.newData.map(post => {
+            return (
+                < View style={styles.parentContainer} >
 
-            < View style={styles.parentContainer} >
-                <View style={styles.childContainer}>
-                    <Text style={styles.paragraph}>Opis: {this.state.newText} </Text>
-                    <Text style={styles.paragraphSmall}>Dodano: {this.state.newDay}/{this.state.newMonth}/{this.state.newYear} </Text>
-                </View>
-                <View style={styles.childContainer}>
-                    <Image source={{ uri: this.state.newImg }} style={{ width: 150, height: 150 }} />
-                </View>
+                    <View style={styles.childContainer}>
+                        <Text style={styles.paragraph}>Opis: {post.title} </Text>
+                        <Text style={styles.paragraphSmall}>Dodano: {post.day}/{post.moth}/{msContentScript.year} </Text>
+                    </View>
+                    <View style={styles.childContainer}>
+                        <Image source={{ uri: post.img }} style={{ width: 150, height: 150 }} />
+                    </View>
+                </View >
+            )
+        });
 
-            </View >
-
-        )
     }
 }
 export default Index;
@@ -44,15 +41,16 @@ export default Index;
 const styles = StyleSheet.create({
     parentContainer: {
         flexDirection: "row",
-        justifyContent: 'space-around',
         marginTop: 10,
         width: '100%',
         backgroundColor: 'beige',
-        padding: 10,
+        padding: 5,
 
     },
     childContainer: {
         justifyContent: 'center',
+        flex: 1,
+        padding: 5,
     },
     paragraph: {
         fontSize: 20,
