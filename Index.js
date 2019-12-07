@@ -11,15 +11,17 @@ class Index extends React.Component {
         for (let i = 0; i < 8; i++) {
             return fetch('http://xkcd.com/' + i + '/info.0.json')
                 .then((response) => response.json())
-                .then((data) => newData.push(data));
+                .then((data) => this.setState({
+                    newData: data,
+                }
+                ));
         }
     }
-
-
     render() {
-        const post = this.state.newData.map(post => {
+
+        this.state.newData.map(post => {
             return (
-                <View style={styles.parentContainer} >
+                < View style={styles.parentContainer} >
 
                     <View style={styles.childContainer}>
                         <Text style={styles.paragraph}>Opis: {post.title} </Text>
@@ -32,25 +34,8 @@ class Index extends React.Component {
             )
         });
 
-        return (
-            post
-
-            /*  <View style={styles.parentContainer} >
-
-                    <View style={styles.childContainer}>
-                        <Text style={styles.paragraph}>Opis: {post.title} </Text>
-                        <Text style={styles.paragraphSmall}>Dodano: {post.day}/{post.moth}/{msContentScript.year} </Text>
-                    </View>
-                    <View style={styles.childContainer}>
-                        <Image source={{ uri: post.img }} style={{ width: 150, height: 150 }} />
-                    </View>
-                </View > */
-        )
-
-
     }
 }
-
 export default Index;
 
 const styles = StyleSheet.create({
