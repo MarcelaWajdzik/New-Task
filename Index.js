@@ -4,12 +4,14 @@ import { Image } from 'react-native';
 
 class Index extends React.Component {
     state = {
+        i: '',
 
     }
 
-    componentDidMount() {
-        return fetch('http://xkcd.com/6/info.0.json')
-            /* return fetch('http://xkcd.com/'+number +'/info.json') */
+    componentDidMount(i) {
+
+        return fetch('http://xkcd.com/' + i + '/info.0.json')
+
             .then((response) => response.json())
             .then((data) => this.setState({
                 newText: data.title,
@@ -19,10 +21,17 @@ class Index extends React.Component {
                 newImg: data.img,
             }));
 
+    }
+
+    changeNumber = () => {
+        for (let i = 0; i < 8; i++) {
+            this.componentDidMount(i)
+        }
 
     }
-    render() {
 
+    render() {
+        this.changeNumber()
         return (
 
             < View style={styles.parentContainer} >
